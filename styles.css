@@ -505,6 +505,43 @@
 
   .fine-print a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
 
+  /* ---------- LEGAL DOCUMENT CONTENT ---------- */
+  .legal-content { padding: 0 0 var(--sp-12); }
+  .legal-inner { max-width: 760px; }
+  .legal-meta {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    color: var(--sage-deep);
+    margin: 0 0 var(--sp-6);
+  }
+  .legal-content h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 1.5rem;
+    color: var(--sage-deep);
+    margin: var(--sp-8) 0 var(--sp-3);
+  }
+  .legal-content h2:first-of-type { margin-top: 0; }
+  .legal-content p {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--ink);
+    opacity: 0.85;
+    margin: 0 0 var(--sp-3);
+  }
+  .legal-content ul {
+    margin: 0 0 var(--sp-3);
+    padding-left: 1.3em;
+  }
+  .legal-content li {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--ink);
+    opacity: 0.85;
+    margin-bottom: 8px;
+  }
+
   /* ---------- FOUNDER STORY ---------- */
   .founder-teaser { padding: var(--sp-10) 0; }
   .founder-teaser-inner {
