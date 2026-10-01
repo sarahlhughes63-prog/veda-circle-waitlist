@@ -523,6 +523,15 @@
     margin: var(--sp-8) 0 var(--sp-3);
   }
   .legal-content h2:first-of-type { margin-top: 0; }
+  .legal-content h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 1.2rem;
+    color: var(--ink);
+    opacity: 0.85;
+    margin: var(--sp-4) 0 var(--sp-2);
+  }
   .legal-content p {
     font-size: 1rem;
     line-height: 1.75;
