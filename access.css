@@ -1,0 +1,20 @@
+/* Accessibility page. Loads after luxe.css and home.css. */
+.acc-lede { max-width: 56ch; }
+.acc-section { padding: 96px 0 0; }
+.acc-section .home-h2 { margin-bottom: 40px; }
+.acc-two { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 16px 64px; align-items: start; }
+.acc-two .home-h2 { margin-bottom: 14px; }
+.acc-note { margin: 0; font-size: 1rem; line-height: 1.7; color: var(--ink-soft); max-width: 30ch; }
+.acc-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 18px; }
+.acc-list li { font-size: 1.04rem; line-height: 1.75; color: var(--ink); }
+.dots li { position: relative; padding-left: 28px; }
+.dots li::before { content: ""; position: absolute; left: 4px; top: 0.72em; width: 8px; height: 8px; border-radius: 50%; background: var(--copper); }
+.acc-card { padding: 48px 52px; border-radius: var(--r-panel); background: color-mix(in srgb, var(--sage) 13%, transparent); }
+.acc-card .home-h2 { margin-bottom: 18px; }
+.acc-card p { margin: 0; max-width: 62ch; font-size: 1.04rem; line-height: 1.8; color: var(--ink); }
+.acc-contact { text-align: center; padding-bottom: 8px; }
+.acc-contact p { margin: 0 auto 28px; max-width: 46ch; font-size: 1.04rem; line-height: 1.8; color: var(--ink-soft); }
+.acc-contact .home-h2 { margin-bottom: 16px; }
+@media (max-width: 860px) { .acc-two { grid-template-columns: minmax(0, 1fr); } .acc-card { padding: 32px 26px; } .acc-section { padding-top: 72px; } }
+
+.acc-list.checks { border-top: 0; padding-top: 0; }
