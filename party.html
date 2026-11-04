@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>The Veda Circle - Launch Evening</title>
+<style>
+  :root { --stage: #000; --sage: #7b8f82; --cream: #f6f3ec; --ink: #2b2b2b; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: var(--stage); overflow: hidden; }
+  body { font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; color: #fff; }
+
+  /* one 16:9 stage, centred, as large as the window allows */
+  #stage { position: absolute; left: 50%; top: 50%; width: min(100vw, 177.78vh); height: min(56.25vw, 100vh); transform: translate(-50%, -50%); overflow: hidden; background: var(--sage); }
+  .layer { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0; transition: opacity 0.9s ease; pointer-events: none; }
+  .layer.on { opacity: 1; }
+  #start { z-index: 3; } #vid { z-index: 2; background: var(--cream); } #end { z-index: 4; }
+  #start.on, #vid.on { transition-duration: 0.7s; }
+
+  /* the song player sits under the end card, fully covered */
+  #song { position: absolute; z-index: 1; left: 0; bottom: 0; width: 320px; height: 180px; border: 0; }
+
+  /* quiet helper, fades away by itself */
+  #hint { position: fixed; z-index: 10; left: 50%; bottom: 2.2vh; transform: translateX(-50%); padding: 10px 20px; border-radius: 999px; background: rgba(20,20,20,0.62); font-size: 15px; line-height: 1.4; letter-spacing: 0.02em; color: #fff; opacity: 0; transition: opacity 0.6s ease; pointer-events: none; text-align: center; max-width: 92vw; }
+  #hint.show { opacity: 1; }
+  #songbtn { position: fixed; z-index: 11; right: 2vw; bottom: 2.2vh; padding: 12px 22px; border-radius: 999px; border: 1.5px solid #fff; background: rgba(20,20,20,0.62); color: #fff; font-family: inherit; font-weight: 600; font-size: 16px; line-height: 1.3; cursor: pointer; }
+  #songbtn:focus-visible, #hint:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+  @media (prefers-reduced-motion: reduce) { .layer { transition-duration: 0.01s !important; } }
+</style>
+</head>
+<body>
+<div id="stage" aria-label="Launch evening presentation">
+  <div id="song-wrap"><div id="song"></div></div>
+  <video id="vid" class="layer" src="party-video.mp4" preload="auto" playsinline></video>
+  <img id="start" class="layer on" src="party-start.jpg" alt="Press the button together. Scan the code with your phone camera.">
+  <img id="end" class="layer" src="party-end.jpg" alt="It is here. The Veda Circle is out now on Google Play. Scan the code to try it free for 14 days.">
+</div>
+<div id="hint" role="status" aria-live="polite"></div>
+<button id="songbtn" type="button" hidden>Play the song</button>
+
+<script>
+(function () {
+  // The song: Alicia Keys, Girl on Fire (Official Video), from her own YouTube channel.
+  var SONG_ID = 'J91ti_MpdHA';
+  var SONG_START = 4;   // seconds into the song where it begins
+
+  var vid = document.getElementById('vid');
+  var startImg = document.getElementById('start');
+  var endImg = document.getElementById('end');
+  var hint = document.getElementById('hint');
+  var songBtn = document.getElementById('songbtn');
+  var state = 'start';           // start, film, end
+  var player = null, playerReady = false, wantSong = false, songStarted = false;
+  var hintTimer = null;
+
+  function say(text, ms) {
+    hint.textContent = text; hint.classList.add('show');
+    clearTimeout(hintTimer);
+    if (ms) hintTimer = setTimeout(function () { hint.classList.remove('show'); }, ms);
+  }
+  function hush() { clearTimeout(hintTimer); hint.classList.remove('show'); }
+
+  /* ---------- the song ---------- */
+  function loadYouTube() {
+    var s = document.createElement('script');
+    s.src = 'https://www.youtube.com/iframe_api';
+    s.onerror = function () { playerReady = false; };
+    document.head.appendChild(s);
+  }
+  window.onYouTubeIframeAPIReady = function () {
+    player = new YT.Player('song', {
+      width: 320, height: 180, videoId: SONG_ID,
+      playerVars: { start: SONG_START, playsinline: 1, rel: 0, controls: 0, modestbranding: 1, disablekb: 1, origin: location.origin },
+      events: {
+        onReady: function () { playerReady = true; if (wantSong) playSong(); },
+        onStateChange: function (e) {
+          if (e.data === YT.PlayerState.PLAYING) { songStarted = true; songBtn.hidden = true; hush(); }
+        },
+        onError: function () { showSongButton('The song could not load. Play it from Spotify or YouTube.'); }
+      }
+    });
+  };
+  function playSong() {
+    wantSong = true;
+    // if the song has not started after a moment (no internet, or the browser held it back), offer one tap
+    setTimeout(function () { if (!songStarted) showSongButton(); }, 3000);
+    if (!player || !playerReady) { return; }
+    try { player.setVolume(100); player.unMute(); player.seekTo(SONG_START, true); player.playVideo(); } catch (e) {}
+  }
+  function showSongButton(msg) { songBtn.hidden = false; if (msg) say(msg, 8000); }
+  songBtn.addEventListener('click', function () { try { player.unMute(); player.seekTo(SONG_START, true); player.playVideo(); } catch (e) {} });
+
+  /* ---------- the flow ---------- */
+  function begin() {
+    if (state !== 'start') return;
+    state = 'film';
+    hush();
+    vid.currentTime = 0; vid.muted = false; vid.volume = 1;
+    var p = vid.play();
+    if (p && p.catch) p.catch(function () { state = 'start'; say('Press Space once more to start the film.', 6000); });
+    vid.classList.add('on');
+    startImg.classList.remove('on');
+  }
+  function finish() {
+    if (state === 'end') return;
+    state = 'end';
+    vid.pause();
+    endImg.classList.add('on');
+    setTimeout(function () { vid.classList.remove('on'); }, 1000);
+    playSong();
+  }
+  function restart() {
+    state = 'start';
+    vid.pause(); vid.currentTime = 0;
+    try { if (player) player.stopVideo(); } catch (e) {}
+    songStarted = false; wantSong = false; songBtn.hidden = true;
+    endImg.classList.remove('on'); vid.classList.remove('on'); startImg.classList.add('on');
+    say('Space to begin', 4000);
+  }
+  function next() { if (state === 'start') begin(); else if (state === 'film') finish(); }
+
+  vid.addEventListener('ended', finish);
+  vid.addEventListener('timeupdate', function () {
+    // hand over a hair before the very last frame, so there is no black flash
+    if (state === 'film' && vid.duration && vid.currentTime >= vid.duration - 0.12) finish();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    var k = e.key;
+    if (k === ' ' || k === 'ArrowRight' || k === 'Enter' || k === 'PageDown') { e.preventDefault(); next(); }
+    else if (k === 'ArrowLeft' || k === 'PageUp' || k === 'Backspace') { e.preventDefault(); restart(); }
+    else if (k === 'f' || k === 'F') {
+      e.preventDefault();
+      if (document.fullscreenElement) { document.exitFullscreen(); }
+      else if (document.documentElement.requestFullscreen) { document.documentElement.requestFullscreen().catch(function () {}); }
+    }
+  });
+  document.getElementById('stage').addEventListener('click', next);
+
+  /* helper line: shows on the first slide, then fades */
+  say('Space to begin  ·  F for full screen  ·  Left arrow to start again', 6000);
+  var moved = null;
+  document.addEventListener('mousemove', function () {
+    if (state !== 'start') return;
+    say('Space to begin  ·  F for full screen', 2500);
+  });
+
+  loadYouTube();
+})();
+</script>
+</body>
+</html>
