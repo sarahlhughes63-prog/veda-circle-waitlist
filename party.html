@@ -199,7 +199,16 @@
   var REMOTE_KEY = 'sb_publishable_n6l8TZ7wdaplzivnT8maYA_Hi4jivNR';
   var REMOTE_CHANNEL = 'vc-launch-1b07ca2108de0a';
   var rch = null, rReady = false, lastNonce = 0, announcedOnce = false;
-  function armed() { return !!(navigator.userActivation && navigator.userActivation.hasBeenActive); }
+  var autoAllowed = false;   // true when Chrome was started so that sound may play by itself
+  function probeAutoplay() {
+    try {
+      var AC = window.AudioContext || window.webkitAudioContext; if (!AC) return;
+      var c = new AC();
+      setTimeout(function () { autoAllowed = (c.state === 'running'); try { c.close(); } catch (e) {} announce(); }, 400);
+    } catch (e) {}
+  }
+  // armed: sound can start without anyone touching the laptop (a key press or click on the page, or Chrome started to allow it)
+  function armed() { return autoAllowed || !!(navigator.userActivation && navigator.userActivation.hasBeenActive); }
   function announce() {
     if (!rch || !rReady) return;
     try { rch.send({ type: 'broadcast', event: 'state', payload: { s: state, armed: armed(), song: songStarted, t: Date.now() } }); } catch (e) {}
@@ -227,7 +236,7 @@
       setInterval(announce, 3000);
     } catch (e) {}
   }
-  window.addEventListener('load', initRemote);
+  window.addEventListener('load', function () { probeAutoplay(); initRemote(); });
 
   loadYouTube();
 })();
