@@ -68,6 +68,7 @@
 <div id="hint" role="status" aria-live="polite"></div>
 <button id="songbtn" type="button" hidden>Play the song</button>
 
+<script src="supabase.js"></script>
 <script>
 (function () {
   // The song: Alicia Keys, Girl on Fire (Official Video), from her own YouTube channel.
@@ -83,6 +84,7 @@
   var state = 'title';           // title, start, film, end
   var player = null, playerReady = false, wantSong = false, songStarted = false;
   var hintTimer = null;
+  function setState(s) { state = s; announce(); }
 
   function say(text, ms) {
     hint.textContent = text; hint.classList.add('show');
@@ -124,29 +126,29 @@
   /* ---------- the flow ---------- */
   function begin() {
     if (state !== 'start') return;
-    state = 'film';
+    setState('film');
     hush();
     vid.currentTime = 0; vid.muted = false; vid.volume = 1;
     var p = vid.play();
-    if (p && p.catch) p.catch(function () { state = 'start'; say('Press Space once more to start the film.', 6000); });
+    if (p && p.catch) p.catch(function () { setState('start'); say('Press Space once more to start the film.', 6000); });
     vid.classList.add('on');
     startImg.classList.remove('on');
   }
   function finish() {
     if (state === 'end') return;
-    state = 'end';
+    setState('end');
     vid.pause();
     endImg.classList.add('on');
     setTimeout(function () { vid.classList.remove('on'); }, 1000);
     playSong();
   }
   function toStart() {
-    state = 'start';
+    setState('start');
     titleSlide.classList.remove('on'); startImg.classList.add('on');
     say('Space to start the film  ·  Left arrow to go back', 5000);
   }
   function toTitle() {
-    state = 'title';
+    setState('title');
     startImg.classList.remove('on'); titleSlide.classList.add('on');
     say('Space for the next slide  ·  F for full screen', 4000);
   }
@@ -156,7 +158,7 @@
       try { if (player) player.stopVideo(); } catch (e) {}
       songStarted = false; wantSong = false; songBtn.hidden = true;
       endImg.classList.remove('on'); vid.classList.remove('on');
-      state = 'start'; startImg.classList.add('on');
+      setState('start'); startImg.classList.add('on');
       say('Space to start the film  ·  Left arrow to go back', 4000);
     } else if (state === 'start') { toTitle(); }
   }
@@ -191,6 +193,41 @@
     if (state !== 'start' && state !== 'title') return;
     say(state === 'title' ? 'Space for the next slide  ·  F for full screen' : 'Space to start the film  ·  Left arrow to go back', 2500);
   });
+
+  /* ---------- phone remote (optional: the keyboard always works) ---------- */
+  var REMOTE_URL = 'https://xonxryvrhivwxtyfcuhu.supabase.co';
+  var REMOTE_KEY = 'sb_publishable_n6l8TZ7wdaplzivnT8maYA_Hi4jivNR';
+  var REMOTE_CHANNEL = 'vc-launch-1b07ca2108de0a';
+  var rch = null, rReady = false, lastNonce = 0, announcedOnce = false;
+  function armed() { return !!(navigator.userActivation && navigator.userActivation.hasBeenActive); }
+  function announce() {
+    if (!rch || !rReady) return;
+    try { rch.send({ type: 'broadcast', event: 'state', payload: { s: state, armed: armed(), song: songStarted, t: Date.now() } }); } catch (e) {}
+  }
+  function onCommand(p) {
+    if (!p || !p.a) return;
+    if (p.a === 'hello') { if (!announcedOnce) { announcedOnce = true; say('Phone remote connected', 3000); } announce(); return; }
+    if (p.n && p.n === lastNonce) return;          // ignore a repeated tap
+    lastNonce = p.n || 0;
+    if (p.a === 'next') {
+      if (state === 'film') return;                  // a stray tap never skips the film
+      if (state === 'start' && !armed()) { say('Press any key on this laptop once to switch the sound on', 6000); announce(); return; }
+      next();
+    } else if (p.a === 'back') { back(); }
+    else if (p.a === 'skip') { if (state === 'film') finish(); }
+    announce();
+  }
+  function initRemote() {
+    if (!window.supabase || !window.supabase.createClient) return;
+    try {
+      var client = window.supabase.createClient(REMOTE_URL, REMOTE_KEY, { auth: { persistSession: false, autoRefreshToken: false } });
+      rch = client.channel(REMOTE_CHANNEL, { config: { broadcast: { self: false } } });
+      rch.on('broadcast', { event: 'cmd' }, function (m) { onCommand(m && m.payload); })
+         .subscribe(function (status) { if (status === 'SUBSCRIBED') { rReady = true; announce(); } });
+      setInterval(announce, 3000);
+    } catch (e) {}
+  }
+  window.addEventListener('load', initRemote);
 
   loadYouTube();
 })();

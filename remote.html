@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#f6f3ec">
+<title>The Veda Circle - Remote</title>
+<style>
+  @font-face { font-family: "Cormorant Garamond"; font-style: normal; font-weight: 400; font-display: swap; src: url("cormorant-garamond-latin-400.woff2") format("woff2"); }
+  @font-face { font-family: "Cormorant Garamond"; font-style: italic; font-weight: 400; font-display: swap; src: url("cormorant-garamond-latin-400i.woff2") format("woff2"); }
+  @font-face { font-family: "Inter"; font-style: normal; font-weight: 400; font-display: swap; src: url("inter-latin-400.woff2") format("woff2"); }
+  :root { --cream: #f6f3ec; --ink: #2b2b2b; --soft: #5f5f5f; --brass: #8a6a3d; --rose: #9b4a4a; --sage: #647469; --sage-deep: #536157; --line: #d9d3c6; --ok: #3f6b4f; --warn: #8a5a1a; --card: #fffdf8; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; min-height: 100%; background: var(--cream); color: var(--ink); -webkit-text-size-adjust: 100%; }
+  body { font-family: "Inter", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 17px; line-height: 1.5; padding: max(18px, env(safe-area-inset-top)) max(18px, env(safe-area-inset-right)) max(22px, env(safe-area-inset-bottom)) max(18px, env(safe-area-inset-left)); }
+  main { max-width: 520px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; min-height: calc(100vh - 40px); }
+  .brand { font-size: 13px; letter-spacing: 0.3em; color: var(--brass); margin: 6px 0 0; }
+  .brand::after { content: ""; display: block; width: 44px; height: 1px; margin-top: 10px; background: var(--brass); }
+  h1 { font-family: "Cormorant Garamond", Georgia, serif; font-weight: 400; font-size: 44px; line-height: 1.05; margin: 8px 0 0; }
+  h1 em { color: var(--rose); }
+  .status { display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 14px; background: var(--card); }
+  .dot { flex: none; width: 12px; height: 12px; border-radius: 50%; background: #b9b2a3; margin-top: 6px; }
+  .status.ok .dot { background: var(--ok); } .status.warn .dot { background: var(--warn); }
+  .status p { margin: 0; } .status .big { font-weight: 600; } .status .small { font-size: 15px; color: var(--soft); }
+  .now { padding: 4px 2px; } .now .k { font-size: 13px; letter-spacing: 0.2em; color: var(--brass); margin: 0 0 4px; }
+  .now .v { font-family: "Cormorant Garamond", Georgia, serif; font-size: 30px; line-height: 1.15; margin: 0; }
+  .btns { display: flex; flex-direction: column; gap: 14px; margin-top: auto; }
+  button { appearance: none; font: inherit; border-radius: 22px; min-height: 96px; padding: 16px 20px; font-size: 22px; line-height: 1.2; font-weight: 600; text-wrap: balance; cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+  #next { border: 0; background: var(--sage-deep); color: #fff; box-shadow: 0 14px 30px -12px rgba(83, 97, 87, 0.7); min-height: 128px; font-size: 26px; }
+  #next:active { transform: scale(0.98); }
+  #back { border: 1.5px solid var(--sage-deep); background: transparent; color: var(--sage-deep); }
+  #skip { border: 1.5px solid var(--line); background: var(--card); color: var(--soft); min-height: 72px; font-size: 18px; font-weight: 400; position: relative; overflow: hidden; }
+  #skip .fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: rgba(155, 74, 74, 0.2); }
+  #skip span { position: relative; }
+  #skip[hidden] { display: none; }
+  button[disabled] { opacity: 0.45; cursor: not-allowed; box-shadow: none; }
+  .tip { font-size: 15px; color: var(--soft); margin: 4px 0 0; }
+  button:focus-visible { outline: 3px solid var(--brass); outline-offset: 3px; }
+</style>
+</head>
+<body>
+<main>
+  <p class="brand">THE VEDA CIRCLE</p>
+  <h1>Launch evening <em>remote</em></h1>
+
+  <div id="status" class="status" role="status" aria-live="polite">
+    <span class="dot" aria-hidden="true"></span>
+    <div><p class="big" id="sbig">Looking for the show...</p><p class="small" id="ssmall">Open the show page on the laptop.</p></div>
+  </div>
+
+  <div class="now"><p class="k">NOW SHOWING</p><p class="v" id="now">Waiting for the laptop</p></div>
+
+  <div class="btns">
+    <button id="next" type="button" disabled>Next slide</button>
+    <button id="back" type="button" disabled>Back</button>
+    <button id="skip" type="button" hidden aria-label="Hold to skip to the end of the film"><span class="fill" id="fill"></span><span>Hold to skip to the end</span></button>
+  </div>
+  <p class="tip">Keep this page open. The laptop keyboard always works too: Space for next, Left arrow for back.</p>
+</main>
+
+<script src="supabase.js"></script>
+<script>
+(function () {
+  var URL_ = 'https://xonxryvrhivwxtyfcuhu.supabase.co';
+  var KEY_ = 'sb_publishable_n6l8TZ7wdaplzivnT8maYA_Hi4jivNR';
+  var CHANNEL = 'vc-launch-1b07ca2108de0a';
+  var NAMES = { title: 'Welcome slide', start: 'Press the button together (QR code)', film: 'The film is playing', end: 'It is here (end card and song)' };
+  var NEXTS = { title: 'Next: show the QR code', start: 'Start the film', film: 'The film is playing...', end: 'The show is finished' };
+  var $ = function (id) { return document.getElementById(id); };
+  var nextB = $('next'), backB = $('back'), skipB = $('skip'), fill = $('fill');
+  var ch = null, ready = false, lastSeen = 0, cur = null, lockUntil = 0;
+
+  function setStatus(kind, big, small) {
+    var el = $('status'); el.className = 'status ' + kind; $('sbig').textContent = big; $('ssmall').textContent = small || '';
+  }
+  function render() {
+    var live = Date.now() - lastSeen < 9000 && cur;
+    if (!ready) { setStatus('', 'Connecting...', 'One moment.'); }
+    else if (!live) { setStatus('warn', 'Looking for the show...', 'Open the show page on the laptop and keep it open.'); }
+    else if (!cur.armed) { setStatus('warn', 'Connected to the laptop', 'Press any key on the laptop once to switch the sound on.'); }
+    else { setStatus('ok', 'Connected to the laptop', 'Sound is ready.'); }
+    if (!live) { $('now').textContent = 'Waiting for the laptop'; nextB.disabled = true; backB.disabled = true; skipB.hidden = true; nextB.textContent = 'Next slide'; return; }
+    $('now').textContent = NAMES[cur.s] || '';
+    nextB.textContent = NEXTS[cur.s] || 'Next slide';
+    var locked = Date.now() < lockUntil;
+    nextB.disabled = locked || cur.s === 'film' || cur.s === 'end' || (cur.s === 'start' && !cur.armed);
+    backB.disabled = locked || cur.s === 'title';
+    skipB.hidden = cur.s !== 'film';
+  }
+  function send(a) {
+    if (!ch || !ready) return;
+    try { ch.send({ type: 'broadcast', event: 'cmd', payload: { a: a, n: Date.now() } }); } catch (e) {}
+    if (navigator.vibrate) { try { navigator.vibrate(30); } catch (e) {} }
+  }
+  function tap(a) { lockUntil = Date.now() + 1500; render(); send(a); setTimeout(render, 1600); }
+  nextB.addEventListener('click', function () { tap('next'); });
+  backB.addEventListener('click', function () { tap('back'); });
+
+  // skipping the film needs a deliberate one second hold
+  var holdT = null, holdStart = 0, raf = null;
+  function holdEnd() { clearTimeout(holdT); cancelAnimationFrame(raf); fill.style.width = '0'; }
+  function holdBegin(e) {
+    e.preventDefault(); holdStart = Date.now();
+    holdT = setTimeout(function () { holdEnd(); send('skip'); }, 1000);
+    (function step() { fill.style.width = Math.min(100, (Date.now() - holdStart) / 10) + '%'; raf = requestAnimationFrame(step); })();
+  }
+  skipB.addEventListener('pointerdown', holdBegin);
+  ['pointerup', 'pointerleave', 'pointercancel'].forEach(function (ev) { skipB.addEventListener(ev, holdEnd); });
+  skipB.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+
+  function connect() {
+    if (!window.supabase || !window.supabase.createClient) { setStatus('warn', 'Could not load', 'Check your internet and reload this page.'); return; }
+    var client = window.supabase.createClient(URL_, KEY_, { auth: { persistSession: false, autoRefreshToken: false } });
+    ch = client.channel(CHANNEL, { config: { broadcast: { self: false } } });
+    ch.on('broadcast', { event: 'state' }, function (m) { cur = m.payload; lastSeen = Date.now(); render(); })
+      .subscribe(function (status) {
+        if (status === 'SUBSCRIBED') { ready = true; render(); send('hello'); }
+        else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT' || status === 'CLOSED') { ready = false; render(); }
+      });
+    setInterval(function () { if (ready && Date.now() - lastSeen > 4000) { send('hello'); } render(); }, 2500);
+  }
+  // keep the phone screen awake while this page is open (ignored if not allowed)
+  function awake() { try { if (navigator.wakeLock) navigator.wakeLock.request('screen').catch(function () {}); } catch (e) {} }
+  awake();
+  document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible') { awake(); if (ready) send('hello'); } });
+  render(); connect();
+})();
+</script>
+</body>
+</html>
