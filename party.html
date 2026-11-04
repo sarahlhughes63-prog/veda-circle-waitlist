@@ -6,7 +6,10 @@
 <meta name="robots" content="noindex, nofollow">
 <title>The Veda Circle - Launch Evening</title>
 <style>
-  :root { --stage: #000; --sage: #7b8f82; --cream: #f6f3ec; --ink: #2b2b2b; }
+  @font-face { font-family: "Cormorant Garamond"; font-style: normal; font-weight: 400; font-display: swap; src: url("cormorant-garamond-latin-400.woff2") format("woff2"); }
+  @font-face { font-family: "Cormorant Garamond"; font-style: italic; font-weight: 400; font-display: swap; src: url("cormorant-garamond-latin-400i.woff2") format("woff2"); }
+  @font-face { font-family: "Inter"; font-style: normal; font-weight: 400; font-display: swap; src: url("inter-latin-400.woff2") format("woff2"); }
+  :root { --stage: #000; --sage: #7b8f82; --cream: #f6f3ec; --ink: #2b2b2b; --brass: #b08a58; --rose: #9b4a4a; --soft: #5f5f5f; }
   * { box-sizing: border-box; }
   html, body { margin: 0; height: 100%; background: var(--stage); overflow: hidden; }
   body { font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; color: #fff; }
@@ -15,6 +18,20 @@
   #stage { position: absolute; left: 50%; top: 50%; width: min(100vw, 177.78vh); height: min(56.25vw, 100vh); transform: translate(-50%, -50%); overflow: hidden; background: var(--cream); }
   .layer { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0; transition: opacity 0.9s ease; pointer-events: none; }
   .layer.on { opacity: 1; }
+  #stage { container-type: inline-size; }
+  /* welcome slide: built from text so it stays sharp on any screen */
+  #title { z-index: 5; background: var(--cream); color: var(--ink); font-family: "Cormorant Garamond", Georgia, "Times New Roman", serif; }
+  #title .brand { position: absolute; left: 4.9cqw; top: 5.4cqw; font-family: "Inter", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 1.1cqw; letter-spacing: 0.3em; color: var(--brass); font-weight: 400; }
+  #title .brand::after { content: ""; display: block; width: 5.3cqw; height: 0.12cqw; margin-top: 0.8cqw; background: var(--brass); }
+  #title .words { position: absolute; left: 4.9cqw; top: 16cqw; width: 56cqw; }
+  #title .h1 { margin: 0; font-weight: 400; font-size: 7.6cqw; line-height: 1.02; }
+  #title .h1 em { display: block; color: var(--rose); font-style: italic; }
+  #title .rule { width: 6.2cqw; height: 0.15cqw; background: var(--brass); margin: 3.2cqw 0 2.8cqw; }
+  #title .label { font-family: "Inter", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 1.15cqw; letter-spacing: 0.3em; color: var(--brass); margin: 0 0 1.2cqw; }
+  #title .when { font-family: "Inter", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 2.3cqw; margin: 0; color: var(--ink); }
+  #title .where { font-size: 3.4cqw; margin: 0.5cqw 0 0; color: var(--ink); }
+  #title .settle { font-family: "Inter", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 1.7cqw; margin: 3.4cqw 0 0; color: var(--soft); }
+  #title .icon { position: absolute; right: 8.5cqw; top: 50%; width: 21cqw; height: 21cqw; transform: translateY(-50%); border-radius: 4.6cqw; box-shadow: 0 2.2cqw 5cqw rgba(60, 50, 40, 0.22); }
   #start { z-index: 3; } #vid { z-index: 2; background: var(--cream); } #end { z-index: 4; }
   #start.on, #vid.on { transition-duration: 0.7s; }
 
@@ -33,7 +50,19 @@
 <div id="stage" aria-label="Launch evening presentation">
   <div id="song-wrap"><div id="song"></div></div>
   <video id="vid" class="layer" src="party-video.mp4" preload="auto" playsinline></video>
-  <img id="start" class="layer on" src="party-start.jpg" alt="Press the button together. Scan the code with your phone camera.">
+  <div id="title" class="layer on" role="img" aria-label="Welcome to The Veda Circle launch evening. Thursday 5 November, 6pm, Healthy Twist Nutrition, Qormi.">
+    <div class="brand">THE VEDA CIRCLE</div>
+    <div class="words">
+      <h1 class="h1">Welcome to<em>The Veda Circle.</em></h1>
+      <div class="rule"></div>
+      <p class="label">THE LAUNCH EVENING</p>
+      <p class="when">Thursday 5 November, 6pm</p>
+      <p class="where">Healthy Twist Nutrition, Qormi</p>
+      <p class="settle">Please settle in. We begin shortly.</p>
+    </div>
+    <img class="icon" src="press-app-icon-1024x1024.png" alt="">
+  </div>
+  <img id="start" class="layer" src="party-start.jpg" alt="Press the button together. Scan the code with your phone camera.">
   <img id="end" class="layer" src="party-end.jpg" alt="It is here. The Veda Circle is out now on Google Play. Scan the code to try it free for 14 days.">
 </div>
 <div id="hint" role="status" aria-live="polite"></div>
@@ -47,10 +76,11 @@
 
   var vid = document.getElementById('vid');
   var startImg = document.getElementById('start');
+  var titleSlide = document.getElementById('title');
   var endImg = document.getElementById('end');
   var hint = document.getElementById('hint');
   var songBtn = document.getElementById('songbtn');
-  var state = 'start';           // start, film, end
+  var state = 'title';           // title, start, film, end
   var player = null, playerReady = false, wantSong = false, songStarted = false;
   var hintTimer = null;
 
@@ -110,15 +140,31 @@
     setTimeout(function () { vid.classList.remove('on'); }, 1000);
     playSong();
   }
-  function restart() {
+  function toStart() {
     state = 'start';
-    vid.pause(); vid.currentTime = 0;
-    try { if (player) player.stopVideo(); } catch (e) {}
-    songStarted = false; wantSong = false; songBtn.hidden = true;
-    endImg.classList.remove('on'); vid.classList.remove('on'); startImg.classList.add('on');
-    say('Space to begin', 4000);
+    titleSlide.classList.remove('on'); startImg.classList.add('on');
+    say('Space to start the film  ·  Left arrow to go back', 5000);
   }
-  function next() { if (state === 'start') begin(); else if (state === 'film') finish(); }
+  function toTitle() {
+    state = 'title';
+    startImg.classList.remove('on'); titleSlide.classList.add('on');
+    say('Space for the next slide  ·  F for full screen', 4000);
+  }
+  function back() {
+    if (state === 'film' || state === 'end') {
+      vid.pause(); vid.currentTime = 0;
+      try { if (player) player.stopVideo(); } catch (e) {}
+      songStarted = false; wantSong = false; songBtn.hidden = true;
+      endImg.classList.remove('on'); vid.classList.remove('on');
+      state = 'start'; startImg.classList.add('on');
+      say('Space to start the film  ·  Left arrow to go back', 4000);
+    } else if (state === 'start') { toTitle(); }
+  }
+  function next() {
+    if (state === 'title') toStart();
+    else if (state === 'start') begin();
+    else if (state === 'film') finish();
+  }
 
   vid.addEventListener('ended', finish);
   vid.addEventListener('timeupdate', function () {
@@ -129,7 +175,7 @@
   document.addEventListener('keydown', function (e) {
     var k = e.key;
     if (k === ' ' || k === 'ArrowRight' || k === 'Enter' || k === 'PageDown') { e.preventDefault(); next(); }
-    else if (k === 'ArrowLeft' || k === 'PageUp' || k === 'Backspace') { e.preventDefault(); restart(); }
+    else if (k === 'ArrowLeft' || k === 'PageUp' || k === 'Backspace') { e.preventDefault(); back(); }
     else if (k === 'f' || k === 'F') {
       e.preventDefault();
       if (document.fullscreenElement) { document.exitFullscreen(); }
@@ -139,11 +185,11 @@
   document.getElementById('stage').addEventListener('click', next);
 
   /* helper line: shows on the first slide, then fades */
-  say('Space to begin  ·  F for full screen  ·  Left arrow to start again', 6000);
+  say('Space for the next slide  ·  F for full screen  ·  Left arrow to go back', 6000);
   var moved = null;
   document.addEventListener('mousemove', function () {
-    if (state !== 'start') return;
-    say('Space to begin  ·  F for full screen', 2500);
+    if (state !== 'start' && state !== 'title') return;
+    say(state === 'title' ? 'Space for the next slide  ·  F for full screen' : 'Space to start the film  ·  Left arrow to go back', 2500);
   });
 
   loadYouTube();
