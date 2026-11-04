@@ -199,6 +199,7 @@
   var REMOTE_KEY = 'sb_publishable_n6l8TZ7wdaplzivnT8maYA_Hi4jivNR';
   var REMOTE_CHANNEL = 'vc-launch-1b07ca2108de0a';
   var rch = null, rReady = false, lastNonce = 0, announcedOnce = false;
+  var SHOW_ID = Math.random().toString(36).slice(2, 8);   // tells several open show pages apart
   var autoAllowed = false;   // true when Chrome was started so that sound may play by itself
   function probeAutoplay() {
     try {
@@ -211,7 +212,7 @@
   function armed() { return autoAllowed || !!(navigator.userActivation && navigator.userActivation.hasBeenActive); }
   function announce() {
     if (!rch || !rReady) return;
-    try { rch.send({ type: 'broadcast', event: 'state', payload: { s: state, armed: armed(), song: songStarted, t: Date.now() } }); } catch (e) {}
+    try { rch.send({ type: 'broadcast', event: 'state', payload: { id: SHOW_ID, s: state, armed: armed(), song: songStarted, t: Date.now() } }); } catch (e) {}
   }
   function onCommand(p) {
     if (!p || !p.a) return;

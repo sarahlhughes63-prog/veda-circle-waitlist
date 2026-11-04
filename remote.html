@@ -69,12 +69,23 @@
   var NEXTS = { title: 'Next: show the QR code', start: 'Start the film', film: 'The film is playing...', end: 'The show is finished' };
   var $ = function (id) { return document.getElementById(id); };
   var nextB = $('next'), backB = $('back'), skipB = $('skip'), fill = $('fill');
-  var ch = null, ready = false, lastSeen = 0, cur = null, lockUntil = 0;
+  var ch = null, ready = false, lastSeen = 0, cur = null, lockUntil = 0, shows = {};
 
   function setStatus(kind, big, small) {
     var el = $('status'); el.className = 'status ' + kind; $('sbig').textContent = big; $('ssmall').textContent = small || '';
   }
+  // Several show pages may be open (an old tab, the show window). Trust a page that is ready for sound, newest first.
+  function pick() {
+    var now = Date.now(), all = [];
+    Object.keys(shows).forEach(function (k) { if (now - shows[k].t < 9000) all.push(shows[k]); });
+    if (!all.length) { cur = null; return; }
+    var ok = all.filter(function (x) { return x.p && x.p.armed; });
+    var pool = ok.length ? ok : all;
+    pool.sort(function (a, b) { return b.t - a.t; });
+    cur = pool[0].p; lastSeen = pool[0].t;
+  }
   function render() {
+    pick();
     var live = Date.now() - lastSeen < 9000 && cur;
     if (!ready) { setStatus('', 'Connecting...', 'One moment.'); }
     else if (!live) { setStatus('warn', 'Looking for the show...', 'Open the show page on the laptop and keep it open.'); }
@@ -113,7 +124,7 @@
     if (!window.supabase || !window.supabase.createClient) { setStatus('warn', 'Could not load', 'Check your internet and reload this page.'); return; }
     var client = window.supabase.createClient(URL_, KEY_, { auth: { persistSession: false, autoRefreshToken: false } });
     ch = client.channel(CHANNEL, { config: { broadcast: { self: false } } });
-    ch.on('broadcast', { event: 'state' }, function (m) { cur = m.payload; lastSeen = Date.now(); render(); })
+    ch.on('broadcast', { event: 'state' }, function (m) { var pl = m.payload || {}; shows[pl.id || 'x'] = { p: pl, t: Date.now() }; render(); })
       .subscribe(function (status) {
         if (status === 'SUBSCRIBED') { ready = true; render(); send('hello'); }
         else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT' || status === 'CLOSED') { ready = false; render(); }
