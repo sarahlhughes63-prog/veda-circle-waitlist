@@ -20,18 +20,19 @@
   .layer.on { opacity: 1; }
   #stage { container-type: inline-size; }
   /* welcome slide: built from text so it stays sharp on any screen */
-  #title { z-index: 5; background: var(--cream); color: var(--ink); font-family: "Cormorant Garamond", Georgia, "Times New Roman", serif; }
-  #title .brand { position: absolute; left: 4.9cqw; top: 5.4cqw; font-family: "Inter", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 1.1cqw; letter-spacing: 0.3em; color: var(--brass); font-weight: 400; }
-  #title .brand::after { content: ""; display: block; width: 5.3cqw; height: 0.12cqw; margin-top: 0.8cqw; background: var(--brass); }
-  #title .words { position: absolute; left: 4.9cqw; top: 16cqw; width: 56cqw; }
-  #title .h1 { margin: 0; font-weight: 400; font-size: 7.6cqw; line-height: 1.02; }
-  #title .h1 em { display: block; color: var(--rose); font-style: italic; }
-  #title .rule { width: 6.2cqw; height: 0.15cqw; background: var(--brass); margin: 3.2cqw 0 2.8cqw; }
-  #title .label { font-family: "Inter", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 1.15cqw; letter-spacing: 0.3em; color: var(--brass); margin: 0 0 1.2cqw; }
-  #title .when { font-family: "Inter", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 2.3cqw; margin: 0; color: var(--ink); }
-  #title .where { font-size: 3.4cqw; margin: 0.5cqw 0 0; color: var(--ink); }
-  #title .settle { font-family: "Inter", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 1.7cqw; margin: 3.4cqw 0 0; color: var(--soft); }
-  #title .icon { position: absolute; right: 8.5cqw; top: 50%; width: 21cqw; height: 21cqw; transform: translateY(-50%); border-radius: 4.6cqw; box-shadow: 0 2.2cqw 5cqw rgba(60, 50, 40, 0.22); }
+  /* soft sage look (chosen 5 Nov): dark enough to read on a projector, same green as the end card */
+  #title { z-index: 5; background: #62786a; color: #ffffff; font-family: "Cormorant Garamond", Georgia, "Times New Roman", serif; }
+  #title .brand { position: absolute; left: 4.9cqw; top: 5.4cqw; font-family: "Inter", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 1.4cqw; letter-spacing: 0.3em; color: #f3e4c8; font-weight: 400; }
+  #title .brand::after { content: ""; display: block; width: 5.3cqw; height: 0.12cqw; margin-top: 0.8cqw; background: #f3e4c8; }
+  #title .words { position: absolute; left: 4.9cqw; top: 13cqw; width: 56cqw; }
+  #title .h1 { margin: 0; font-weight: 400; font-size: 7.6cqw; line-height: 1.02; color: #ffffff; }
+  #title .h1 em { display: block; color: #f7e2cf; font-style: italic; }
+  #title .rule { width: 6.2cqw; height: 0.15cqw; background: #f3e4c8; margin: 3.2cqw 0 2.8cqw; }
+  #title .label { font-family: "Inter", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 1.5cqw; letter-spacing: 0.3em; color: #f3e4c8; margin: 0 0 1.2cqw; }
+  #title .when { font-family: "Inter", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 2.8cqw; margin: 0; color: #ffffff; }
+  #title .where { font-size: 3.5cqw; margin: 0.5cqw 0 0; color: #ffffff; }
+  #title .settle { font-family: "Inter", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 2.1cqw; margin: 3cqw 0 0; color: #eef3ea; }
+  #title .icon { position: absolute; right: 8.5cqw; top: 50%; width: 21cqw; height: 21cqw; transform: translateY(-50%); border-radius: 4.6cqw; box-shadow: 0 0 7cqw rgba(255, 255, 255, 0.10), 0 2.4cqw 5.5cqw rgba(0, 0, 0, 0.38); }
   #start { z-index: 3; } #vid { z-index: 2; background: var(--cream); } #end { z-index: 4; }
   #start.on, #vid.on { transition-duration: 0.7s; }
 
