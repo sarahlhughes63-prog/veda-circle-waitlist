@@ -1,0 +1,26 @@
+/* Extra styles for the condition pages, the hub and the plain-words privacy page */
+.plain-list { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.plain-list li { position: relative; padding-left: 22px; line-height: 1.6; }
+.plain-list li::before { content: ""; position: absolute; left: 2px; top: 0.7em; width: 7px; height: 7px; border-radius: 50%; background: var(--sage); }
+.pillar-desc p { margin: 0 0 12px; }
+.pillar-desc p:last-child { margin-bottom: 0; }
+.pillar-desc { opacity: 1; max-width: 62ch; }
+.pillar-label { overflow-wrap: anywhere; }
+.page-cta { padding: 12px 0 28px; }
+.faq-block { border-top: 0; padding-bottom: 0; }
+.faq-head { font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 1.9rem; color: var(--ink); margin: 36px 0 12px; }
+.source-note { padding: 28px 0 8px; }
+.source-note p { margin: 0; max-width: 62ch; font-size: 0.9rem; line-height: 1.6; color: var(--ink-soft); }
+.more-links { padding: 24px 0 56px; }
+.link-chips { list-style: none; margin: 14px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
+.link-chips a { display: inline-flex; align-items: center; min-height: 44px; padding: 10px 18px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); color: var(--sage-deep); text-decoration: none; font-size: 0.95rem; line-height: 1.3; }
+.link-chips a:hover { background: var(--sage-deep); border-color: var(--sage-deep); color: #fff; }
+.cond-grid { list-style: none; margin: 8px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 14px; }
+.cond-card { display: flex; flex-direction: column; gap: 6px; height: 100%; padding: 22px; border: 1px solid var(--line); border-radius: 20px; background: var(--card); color: var(--ink); text-decoration: none; }
+.cond-card strong { font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 1.4rem; color: var(--sage-deep); }
+.cond-card span { font-size: 0.95rem; line-height: 1.5; color: var(--ink-soft); }
+.cond-card:hover { border-color: var(--sage); }
+.fine-note { margin-top: 10px; max-width: 60ch; margin-left: auto; margin-right: auto; }
+main a.cond-card, main a.cond-card:hover, main .link-chips a, main .link-chips a:hover { text-decoration: none !important; }
+main .link-chips a { color: var(--sage-deep) !important; }
+main .link-chips a:hover { color: #fff !important; }
