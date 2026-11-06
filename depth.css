@@ -108,3 +108,9 @@ main > .pillars:not(.faq-block) > .wrap:not(:has(.cond-grid)) { background: var(
 main > .pillars.faq-block > .wrap { padding-top: 0; }
 @media (max-width: 700px) { main > .pillars:not(.faq-block) > .wrap:not(:has(.cond-grid)) { padding-left: 22px; padding-right: 22px; max-width: calc(100% - 32px); } }
 .pillar-row:last-child { border-bottom: 0; }
+
+/* Hero: bigger trial line and iPhone waitlist line */
+.hero-split .trial-line { font-size: 1.05rem; line-height: 1.6; margin: 20px 0 0; max-width: 52ch; }
+.hero-split .iphone-line { margin: 10px 0 0; font-size: 1.3rem; line-height: 1.4; font-weight: 500; color: var(--ink); }
+.hero-split .iphone-line a { color: var(--sage-deep); font-weight: 600; text-decoration: none; border-bottom: 2px solid var(--copper); padding-bottom: 1px; }
+.hero-split .iphone-line a:hover { border-bottom-color: var(--sage-deep); }
