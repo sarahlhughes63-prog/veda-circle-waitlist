@@ -33,6 +33,7 @@
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="luxe.css">
 <link rel="stylesheet" href="home.css">
+<link rel="stylesheet" href="depth.css">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -153,8 +154,9 @@
   </div>
 </nav>
 
-<header class="hero hero-home">
-  <div class="wrap">
+<header class="hero hero-home hero-split">
+  <div class="wrap hero-grid">
+    <div class="hero-text">
     <p class="label-caps eyebrow-terra">Out now on Google Play &middot; iPhone soon</p>
     <h1>Where science meets spirit.</h1>
     <p class="subhead">A private women&rsquo;s health app. Track your cycle, your symptoms and your story, then take it to your appointment in one report.</p>
@@ -169,26 +171,36 @@
     </div>
     <p class="trial-line">14 days free, then the plan price unless you cancel. iPhone coming soon: <a href="#iphone">join the list</a>.</p>
     <p class="hero-proof"><q>soft, calming and visually pleasing</q><span>Karen Baker, early tester &middot; <a href="#reviews">Read what early testers say</a></span></p>
-  </div>
-  <div class="panels">
-    <div class="panel panel-photo">
-      <img src="sarah-portrait-2.webp" width="1000" height="1500" fetchpriority="high" decoding="async" alt="Sarah Hughes, founder of The Veda Circle, smiling with her hand resting on her cheek">
-      <p class="label-caps panel-cap">Sarah Hughes, founder</p>
     </div>
-    <div class="panel panel-a">
-      <div class="phone-frame">
-        <video autoplay muted loop playsinline preload="metadata" poster="shot-today.webp" width="884" height="1920" aria-label="The Veda Circle Today screen, showing where you are in your cycle and what to log today">
-          <source src="video-today.mp4" type="video/mp4">
-        </video>
+    <div class="hero-stage" aria-label="Two screens from The Veda Circle">
+      <div class="stage-rings" aria-hidden="true"></div>
+      <div class="stage-phone stage-back">
+        <div class="phone-frame notch"><img src="shot-report.webp" width="900" height="1957" fetchpriority="high" decoding="async" alt="The Veda Circle doctor-ready report screen, with date ranges and a PDF, share and print option"></div>
       </div>
-      <p class="label-caps panel-cap">Today</p>
-    </div>
-    <div class="panel panel-c">
-      <div class="phone-frame notch"><img src="shot-report.webp" width="900" height="1957" fetchpriority="high" decoding="async" alt="The Veda Circle doctor-ready report screen, with date ranges and a PDF, share and print option"></div>
-      <p class="label-caps panel-cap">Doctor-ready report</p>
+      <div class="stage-phone stage-main">
+        <div class="phone-frame">
+          <video autoplay muted loop playsinline preload="metadata" poster="shot-today.webp" width="884" height="1920" aria-label="The Veda Circle Today screen, showing where you are in your cycle and what to log today">
+            <source src="video-today.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <p class="stage-chip stage-chip-a"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Stays on your phone</p>
+      <p class="stage-chip stage-chip-b">Doctor-ready report</p>
     </div>
   </div>
 </header>
+
+<section class="founder-band" aria-label="A note from the founder">
+  <div class="wrap founder-band-grid">
+    <figure class="founder-band-pic"><img src="sarah-portrait-2.webp" width="1000" height="1500" loading="lazy" decoding="async" alt="Sarah Hughes, founder of The Veda Circle, smiling with her hand resting on her cheek"></figure>
+    <div class="founder-band-copy">
+      <p class="label-caps">Made with care, in Malta</p>
+      <blockquote><p>I believe every woman should be able to walk into her doctor&rsquo;s appointment with trust, confidence, and power.</p></blockquote>
+      <p class="founder-band-by">Sarah Hughes, founder. She lived with PMDD for years before it had a name, then taught herself to build the app she couldn&rsquo;t find.</p>
+      <a class="founder-band-link" href="about.html">Read Sarah&rsquo;s story</a>
+    </div>
+  </div>
+</section>
 
 <main id="main-content">
 
