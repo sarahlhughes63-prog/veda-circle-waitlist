@@ -466,31 +466,38 @@
     <div class="home-head">
       <p class="label-caps eyebrow-terra" style="margin-bottom:18px">Accessibility, built in</p>
       <h2 class="home-h2" id="mine-h">Make it your own.</h2>
-      <p class="home-lede">Try it out. Choose your colour, text size and reading font, and watch this whole page change as you do, just like the app.</p>
+      <p class="home-lede">Try it out. Choose your colour, text size and reading font, and whether you would like more pictures or more words. Watch this page change as you do, just like the app.</p>
     </div>
     <div class="mine">
       <div class="mine-controls">
         <p class="try-hint"><span class="try-hint-tag">Try it now</span>Press anything below. It changes this page straight away, and one button puts it all back.</p>
+        <fieldset class="prefs-group detail-choice">
+          <legend class="label-caps">More pictures or more words</legend>
+          <div class="prefs-row">
+            <label class="prefs-opt"><input type="radio" name="detail-choice" value="pictures"><span class="opt-chip detail-chip"><strong>More pictures</strong><small>Pictures and short labels, with the detail one tap away.</small></span></label>
+            <label class="prefs-opt"><input type="radio" name="detail-choice" value="words" checked><span class="opt-chip detail-chip"><strong>More words</strong><small>Everything explained on the page.</small></span></label>
+          </div>
+        </fieldset>
         <div data-prefs-mount></div>
       </div>
       <div class="mine-stage" aria-hidden="true">
-        <div class="mini">
+        <div class="mini" data-detail="words">
           <div class="mini-top">
             <p class="label-caps">Monday 2 Nov</p>
             <p class="mini-hello">Good evening, Maya</p>
-            <p class="mini-sub">No entry for today yet.</p>
+            <p class="mini-sub mini-more">No entry for today yet.</p>
           </div>
           <div class="mini-card">
             <div class="mini-ring"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" style="stroke:#C07D7D" stroke-dasharray="38.13 238.76" stroke-dashoffset="0.00"/><circle cx="50" cy="50" r="38" style="stroke:var(--accent-light)" stroke-dasharray="62.85 238.76" stroke-dashoffset="-39.63"/><circle cx="50" cy="50" r="38" style="stroke:#D4C5B0" stroke-dasharray="29.92 238.76" stroke-dashoffset="-103.98"/><circle cx="50" cy="50" r="38" style="stroke:var(--sage)" stroke-dasharray="95.77 238.76" stroke-dashoffset="-135.40"/></svg><div class="mini-day">15<small>DAY</small></div></div>
-            <div><p class="mini-h">Luteal</p><p>Day 15 of your cycle. Your period may be due in about 14 days.</p></div>
+            <div><p class="mini-h">Luteal</p><p class="mini-more">Day 15 of your cycle. Your period may be due in about 14 days.</p></div>
           </div>
           <span class="mini-btn">Log today</span>
-          <div class="mini-row"><span class="mini-badge"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span><div><strong>Appointments &amp; tests</strong><span>Add a date, a blood test, or a reminder</span></div></div>
+          <div class="mini-row"><span class="mini-badge"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span><div><strong>Appointments &amp; tests</strong><span class="mini-more">Add a date, a blood test, or a reminder</span></div></div>
           <div class="mini-tabs"><span>Today</span><span>Log</span><span>Insights</span><span>Report</span><span>Journal</span></div>
         </div>
       </div>
     </div>
-    <p class="mine-note">Open &ldquo;More ways to read&rdquo; for line spacing, letter spacing, underlined links, a reading guide, a pause for movement and Listen, which reads this page out loud. The same choices are behind the Aa button at the top of every page, and they are saved on this device only. <a href="accessibility.html">Read about accessibility</a>. The app has these too.</p>
+    <p class="mine-note">Open &ldquo;More ways to read&rdquo; for line spacing, letter spacing, underlined links, a reading guide, a pause for movement and Listen, which reads this page out loud. The same choices are behind the Aa button at the top of every page, and they are saved on this device only. <a href="accessibility.html">Read about accessibility</a>. The app has these too, along with the choice of more pictures or more words, which you can change whenever you like.</p>
     <div class="cta-line"><a class="btn-pill solid" href="#plans">Start your 14 days free</a><p>Every plan starts with 14 days free. Cancel any time.</p></div>
   </div>
 </section>
@@ -954,6 +961,16 @@
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     document.querySelectorAll('video[autoplay]').forEach((v) => { v.pause(); v.removeAttribute('autoplay'); v.setAttribute('controls', ''); });
   }
+</script>
+
+<script>
+(function(){
+  var mini=document.querySelector('.mini');
+  if(!mini)return;
+  document.querySelectorAll('input[name="detail-choice"]').forEach(function(i){
+    i.addEventListener('change',function(){ if(i.checked) mini.setAttribute('data-detail',i.value); });
+  });
+})();
 </script>
 
 </body>
