@@ -5,7 +5,7 @@
 .hero.hero-home.hero-split .wrap.hero-grid { display: grid; grid-template-columns: minmax(0, 1.04fr) minmax(0, 0.96fr); gap: 56px; align-items: center; text-align: left; }
 .hero-split .hero-text { min-width: 0; }
 .hero-split .label-caps { margin-bottom: 22px; }
-.hero-split h1 { font-size: clamp(2.7rem, 5.4vw, 5.6rem); line-height: 1.02; margin: 0 0 22px; text-wrap: balance; }
+.hero-split h1 { font-size: clamp(2.2rem, 3.55vw, 3.9rem); line-height: 1.04; margin: 0 0 22px; text-wrap: balance; }
 .hero-split .subhead { max-width: 44ch; margin: 0 0 30px; font-size: 1.12rem; }
 .hero-split .pair { justify-content: flex-start; flex-direction: column; align-items: flex-start; gap: 14px; margin: 0 0 32px; max-width: none; }
 .hero-split .pair-dot { display: none; }
