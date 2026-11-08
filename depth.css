@@ -122,3 +122,13 @@ main > .pillars.faq-block > .wrap { padding-top: 0; }
 .store-btn.soft small { opacity: 1; }
 .store-btn.soft:hover { background: var(--sage-deep); border-color: var(--sage-deep); color: #fff; }
 .hero-split .trial-line { margin: 16px 0 0; font-size: 0.9rem; line-height: 1.55; }
+
+/* More 14-day buttons */
+.cta-line.on-dark .btn-pill.solid { background: #fff; color: var(--sage-deep); border-color: #fff; }
+.cta-line.on-dark .btn-pill.solid:hover { background: transparent; color: #fff; }
+.cta-line.on-dark p { color: color-mix(in srgb, #fff 82%, var(--sage-deep)); }
+.screens > .wrap .cta-line { margin-top: 28px; }
+.closing-cta { text-align: center; }
+.closing-cta .home-head { margin-left: auto; margin-right: auto; }
+.closing-cta .home-head::before { margin-left: auto; margin-right: auto; }
+.closing-cta .home-lede { margin-left: auto; margin-right: auto; }
