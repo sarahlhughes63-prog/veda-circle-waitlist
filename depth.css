@@ -114,3 +114,11 @@ main > .pillars.faq-block > .wrap { padding-top: 0; }
 .hero-split .iphone-line { margin: 10px 0 0; font-size: 1.3rem; line-height: 1.4; font-weight: 500; color: var(--ink); }
 .hero-split .iphone-line a { color: var(--sage-deep); font-weight: 600; text-decoration: none; border-bottom: 2px solid var(--copper); padding-bottom: 1px; }
 .hero-split .iphone-line a:hover { border-bottom-color: var(--sage-deep); }
+
+/* Hero: iPhone waitlist as a soft button, trial line as a quiet note */
+.hero-split .store-row-2 { margin-top: 12px; justify-content: flex-start; }
+.hero-split .store-row-2 .store-btn { flex: 1 1 100%; max-width: 452px; }
+.store-btn.soft { background: var(--sage-pale); border-color: color-mix(in srgb, var(--sage) 60%, transparent); color: #34413A; box-shadow: 0 8px 18px -12px rgba(36, 46, 34, 0.45); }
+.store-btn.soft small { opacity: 1; }
+.store-btn.soft:hover { background: var(--sage-deep); border-color: var(--sage-deep); color: #fff; }
+.hero-split .trial-line { margin: 16px 0 0; font-size: 0.9rem; line-height: 1.55; }
