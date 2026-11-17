@@ -767,10 +767,10 @@
   </div>
 </section>
 
-<section class="iphone-list reveal" id="iphone" aria-labelledby="updates-h">
+<section class="iphone-list reveal" id="newsletter" aria-labelledby="updates-h">
   <div class="wrap">
-    <h2 class="home-h2" id="updates-h">Stay in the loop.</h2>
-    <p class="home-lede">Updates from The Veda Circle, now and then. The iPhone and Android apps are both out, so you can <a href="#plans">try it free for 14 days</a> today.</p>
+    <h2 class="home-h2" id="updates-h">The weekly newsletter.</h2>
+    <p class="home-lede">One short, calm email each week from The Veda Circle. Unsubscribe at any time.</p>
     <form class="signup" id="waitlist-form" novalidate>
       <div class="field-group">
         <div class="field-label"><label for="email">Your email</label><button type="button" class="info-btn" id="info-btn" aria-expanded="false" aria-controls="email-info" aria-label="How we store your email"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></button></div>
@@ -780,16 +780,16 @@
         <p class="info-title">How we store your email</p>
         <ul>
           <li>Stored securely in an EU-based database in Ireland (Supabase), and in MailerLite, the email service we use to send our updates.</li>
-          <li>Used only to send you updates about The Veda Circle. Never sold or shared.</li>
+          <li>Used only to send you the weekly newsletter and updates about The Veda Circle. Never sold or shared.</li>
           <li>Nothing about your health is connected to it. Your entries stay on your phone.</li>
           <li>Unsubscribe or ask us to delete it at any time: hello@thevedacircle.com.</li>
         </ul>
         <p class="info-more">Full details are in our <a href="privacy.html">Privacy Policy</a>.</p>
       </div>
-      <button class="join" type="submit" id="join-btn"><span>Keep me updated</span></button>
+      <button class="join" type="submit" id="join-btn"><span>Send me the weekly newsletter</span></button>
     </form>
     <p class="form-message" id="form-message" role="status" aria-live="polite"></p>
-    <p class="consent-note">By signing up you agree to receive occasional updates by email. You can unsubscribe at any time. See our <a href="privacy.html">Privacy Policy</a>.</p>
+    <p class="consent-note">By signing up you agree to receive our weekly newsletter by email. You can unsubscribe at any time. See our <a href="privacy.html">Privacy Policy</a>.</p>
   </div>
 </section>
 
@@ -941,14 +941,14 @@
 
     if (error) {
       if (error.code === '23505') {
-        msg.textContent = "You're already on the list. We'll be in touch.";
+        msg.textContent = "You're already signed up. See you in your inbox.";
         msg.classList.add('success');
       } else {
         msg.textContent = "That didn't go through. Check the email and try again.";
         msg.classList.add('error');
       }
     } else {
-      msg.textContent = "You're on the list. We'll send you occasional updates about The Veda Circle.";
+      msg.textContent = "You're signed up. Your first weekly newsletter will arrive soon.";
       msg.classList.add('success');
       form.reset();
     }
