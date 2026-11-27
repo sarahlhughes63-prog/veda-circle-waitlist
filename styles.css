@@ -280,7 +280,7 @@
     border-color: var(--sage-deep);
     outline: 2px solid var(--sage-deep);
   }
-  input[type="email"]::placeholder { color: #9aa392; }
+  input[type="email"]::placeholder { color: #6b665e; }
 
   button.join {
     font-family: 'Inter', sans-serif;
